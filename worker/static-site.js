@@ -1,23 +1,59 @@
 // free-pdf-converter worker — adds inline Adsterra banners (adfix). Backup of the previous version: /workspace/ad-sites-backup/free-pdf-converter/
 
-const ADFIX_JS = "/* adfix.js \u2014 renders Adsterra banners inline (Adsterra banners do not fill when wrapped\n   in an extra same-origin iframe). Loads one banner at a time because Adsterra reads the\n   global atOptions. Config: window.__ADFIX = { keys: { \"728x90\": \"<key>\", ... }, reuse: bool } */\n(function () {\n  if (window.__adfixLoaded) return; window.__adfixLoaded = true;\n  var C = window.__ADFIX || {}; var KEYS = C.keys || {};\n  // Some ad scripts try to send the whole page to another site without any click (visitor loses the tool).\n  // Block cross-site navigations of this tab that the visitor did not start. Clicked links still work,\n  // and ads that open a new tab/window are not affected.\n  if (C.guardNav !== false && window.navigation && navigation.addEventListener) {\n    navigation.addEventListener('navigate', function (e) {\n      try {\n        if (e.userInitiated || !e.cancelable || e.navigationType === 'traverse' || e.navigationType === 'reload') return;\n        var u = new URL(e.destination.url);\n        if (u.origin !== location.origin) { e.preventDefault(); if (window.console) console.info('[adfix] blocked automatic redirect to ' + u.origin); }\n      } catch (_) {}\n    });\n  }\n  var used = {}; var queue = []; var busy = false;\n  function visible(el) { var r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(el).display !== 'none'; }\n  function sizeOf(el) {\n    var s = el.getAttribute('data-adfix-size');\n    if (s) return s;\n    var m0 = (el.getAttribute('data-ad-slot') || '').match(/(\\d+x\\d+)/); if (m0) return m0[1];\n    var f = el.querySelector('iframe'); if (!f) return null;\n    var m = (f.getAttribute('src') || '').match(/\\/ads\\/units\\/(\\d+x\\d+)/); if (m) return m[1];\n    var w = f.getAttribute('width'), h = f.getAttribute('height'); return (w && h) ? (w + 'x' + h) : null;\n  }\n  function pump() {\n    if (busy || !queue.length) return; busy = true;\n    var job = queue.shift(); var wh = job.size.split('x'); var w = +wh[0], h = +wh[1];\n    var holder = document.createElement('div');\n    holder.className = 'adfix-holder';\n    holder.style.cssText = 'width:' + w + 'px;height:' + h + 'px;max-width:100%;overflow:hidden;margin:0 auto;';\n    job.el.appendChild(holder);\n    window.atOptions = { key: job.key, format: 'iframe', height: h, width: w, params: {} };\n    var s = document.createElement('script');\n    s.src = 'https://www.highrevenueformat.com/' + job.key + '/invoke.js';\n    // Sandbox the banner iframe that invoke.js creates, so a creative cannot redirect the whole page.\n    var origCreate = document.createElement;\n    if (C.sandbox !== false) {\n      document.createElement = function (tag) {\n        var el = origCreate.apply(document, arguments);\n        if (String(tag).toLowerCase() === 'iframe') el.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms');\n        return el;\n      };\n    }\n    var done = function () { document.createElement = origCreate; setTimeout(function () { busy = false; pump(); }, 150); };\n    s.onload = done; s.onerror = done; holder.appendChild(s);\n  }\n  function scan() {\n    var nodes = document.querySelectorAll(C.selector || '.ad-slot, [data-adfix-size]');\n    for (var i = 0; i < nodes.length; i++) {\n      var el = nodes[i]; if (el.getAttribute('data-adfix') ) continue;\n      var size = sizeOf(el); if (!size) continue;\n      if (!visible(el)) continue;                    // only mount what the visitor can see\n      // a horizontal banner wider than its slot (phones): use the largest horizontal size that fits\n      var avail = el.getBoundingClientRect().width;\n      var sw = +size.split('x')[0], sh = +size.split('x')[1];\n      if (sw > avail + 1 && sw > sh) {\n        var fits = ['728x90', '468x60', '320x50'].filter(function (z) { return +z.split('x')[0] <= avail + 1 && KEYS[z]; });\n        if (fits.length) size = fits[0];\n      }\n      if (+size.split('x')[0] > avail + 1) { el.setAttribute('data-adfix', 'empty'); el.classList.add('adfix-empty'); continue; } // would be cut off\n      var key = el.getAttribute('data-adfix-key') || KEYS[size];\n      el.setAttribute('data-adfix', 'seen');\n      var fr = el.querySelector('iframe');\n      if (fr && !fr.classList.contains('adfix-keep')) { fr.style.display = 'none'; try { fr.src = 'about:blank'; } catch (e) {} }\n      if (!key || (used[key] && !C.reuse)) {          // no free ad unit for this spot: collapse it\n        el.setAttribute('data-adfix', 'empty'); el.classList.add('adfix-empty'); continue;\n      }\n      used[key] = (used[key] || 0) + 1; el.setAttribute('data-adfix', 'mounted');\n      queue.push({ el: el, key: key, size: size });\n    }\n    pump();\n  }\n  var t = null; function later() { clearTimeout(t); t = setTimeout(scanAll, 300); }\n  function addExtras() {\n    (C.extra || []).forEach(function (x, i) {\n      if (document.getElementById('adfix-x' + i)) return;\n      var anchor = x.anchor ? document.querySelector(x.anchor) : document.body; if (!anchor) return;\n      var d = document.createElement('div'); d.id = 'adfix-x' + i;\n      d.className = 'adfix-slot ' + (x.cls || ''); d.setAttribute('aria-label', 'Advertisement');\n      d.setAttribute('data-adfix-size', x.size); if (x.key) d.setAttribute('data-adfix-key', x.key);\n      if (x.where === 'before') anchor.parentNode.insertBefore(d, anchor);\n      else if (x.where === 'after') anchor.parentNode.insertBefore(d, anchor.nextSibling);\n      else if (x.where === 'prepend') anchor.insertBefore(d, anchor.firstChild);\n      else anchor.appendChild(d);\n    });\n  }\n  function scanAll() { addExtras(); scan(); }\n  function start() {\n    setTimeout(scanAll, 800);\n    new MutationObserver(later).observe(document.body, { childList: true, subtree: true });\n    window.addEventListener('resize', later);\n  }\n  if (document.readyState === 'complete') start(); else window.addEventListener('load', start);\n})();\n";
-const ADFIX_CSS = ".adfix-empty{display:none!important}\n.adfix-holder iframe{display:block;margin:0 auto}\n.adfix-rail{display:none}\n@media (min-width:1520px){\n  .adfix-rail{display:block;position:fixed;top:130px;width:160px;height:600px;z-index:20}\n  .adfix-rail-left{left:calc(50% - 576px - 176px)}\n  .adfix-rail-right{right:calc(50% - 576px - 176px)}\n}\n.adfix-footer{width:100%;justify-content:center;padding:12px 0}\n.adfix-footer-desktop{display:none}\n.adfix-footer-mobile{display:flex}\n@media (min-width:768px){.adfix-footer-desktop{display:flex}.adfix-footer-mobile{display:none}}\n";
-const ADFIX_CFG = {"reuse": true, "keys": {"728x90": "5283bd2b5651ed29b740fd9cc6cf0829", "468x60": "f0847b970c8514cd6550c2d89245dbb2", "300x250": "f21ee4f8302fc794390db577916f71e5", "160x600": "c18fdea92b0e33241b2a8a519eb6065c", "160x300": "af38b71c65d63202d6cf8841527a1861", "320x50": "10ca6c2fb83967a7598a2680f98fdadc"}, "selector": ".adsterra-slot[data-ad-slot], [data-adfix-size]"};
-const HEAD_INJECT = '<link rel="stylesheet" href="/__adfix/adfix.css?v=3"/><script>window.__ADFIX=' + JSON.stringify(ADFIX_CFG) + '</script><script src="/__adfix/adfix.js?v=3" defer></script>';
+const ADFIX_JS =
+  "/* adfix.js \u2014 renders Adsterra banners inline (Adsterra banners do not fill when wrapped\n   in an extra same-origin iframe). Loads one banner at a time because Adsterra reads the\n   global atOptions. Config: window.__ADFIX = { keys: { \"728x90\": \"<key>\", ... }, reuse: bool } */\n(function () {\n  if (window.__adfixLoaded) return; window.__adfixLoaded = true;\n  var C = window.__ADFIX || {}; var KEYS = C.keys || {};\n  // Some ad scripts try to send the whole page to another site without any click (visitor loses the tool).\n  // Block cross-site navigations of this tab that the visitor did not start. Clicked links still work,\n  // and ads that open a new tab/window are not affected.\n  if (C.guardNav !== false && window.navigation && navigation.addEventListener) {\n    navigation.addEventListener('navigate', function (e) {\n      try {\n        if (e.userInitiated || !e.cancelable || e.navigationType === 'traverse' || e.navigationType === 'reload') return;\n        var u = new URL(e.destination.url);\n        if (u.origin !== location.origin) { e.preventDefault(); if (window.console) console.info('[adfix] blocked automatic redirect to ' + u.origin); }\n      } catch (_) {}\n    });\n  }\n  var used = {}; var queue = []; var busy = false;\n  function visible(el) { var r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(el).display !== 'none'; }\n  function sizeOf(el) {\n    var s = el.getAttribute('data-adfix-size');\n    if (s) return s;\n    var m0 = (el.getAttribute('data-ad-slot') || '').match(/(\\d+x\\d+)/); if (m0) return m0[1];\n    var f = el.querySelector('iframe'); if (!f) return null;\n    var m = (f.getAttribute('src') || '').match(/\\/ads\\/units\\/(\\d+x\\d+)/); if (m) return m[1];\n    var w = f.getAttribute('width'), h = f.getAttribute('height'); return (w && h) ? (w + 'x' + h) : null;\n  }\n  function pump() {\n    if (busy || !queue.length) return; busy = true;\n    var job = queue.shift(); var wh = job.size.split('x'); var w = +wh[0], h = +wh[1];\n    var holder = document.createElement('div');\n    holder.className = 'adfix-holder';\n    holder.style.cssText = 'width:' + w + 'px;height:' + h + 'px;max-width:100%;overflow:hidden;margin:0 auto;';\n    job.el.appendChild(holder);\n    window.atOptions = { key: job.key, format: 'iframe', height: h, width: w, params: {} };\n    var s = document.createElement('script');\n    s.src = 'https://www.highrevenueformat.com/' + job.key + '/invoke.js';\n    // Sandbox the banner iframe that invoke.js creates, so a creative cannot redirect the whole page.\n    var origCreate = document.createElement;\n    if (C.sandbox !== false) {\n      document.createElement = function (tag) {\n        var el = origCreate.apply(document, arguments);\n        if (String(tag).toLowerCase() === 'iframe') { el.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms'); el.setAttribute('credentialless', ''); try { el.credentialless = true; } catch (_) {} }\n        return el;\n      };\n    }\n    var done = function () { document.createElement = origCreate; setTimeout(function () { busy = false; pump(); }, 150); };\n    s.onload = done; s.onerror = done; holder.appendChild(s);\n  }\n  function scan() {\n    var nodes = document.querySelectorAll(C.selector || '.ad-slot, [data-adfix-size]');\n    for (var i = 0; i < nodes.length; i++) {\n      var el = nodes[i]; if (el.getAttribute('data-adfix') ) continue;\n      var size = sizeOf(el); if (!size) continue;\n      if (!visible(el)) continue;                    // only mount what the visitor can see\n      // a horizontal banner wider than its slot (phones): use the largest horizontal size that fits\n      var avail = el.getBoundingClientRect().width;\n      var sw = +size.split('x')[0], sh = +size.split('x')[1];\n      if (sw > avail + 1 && sw > sh) {\n        var fits = ['728x90', '468x60', '320x50'].filter(function (z) { return +z.split('x')[0] <= avail + 1 && KEYS[z]; });\n        if (fits.length) size = fits[0];\n      }\n      if (+size.split('x')[0] > avail + 1) { el.setAttribute('data-adfix', 'empty'); el.classList.add('adfix-empty'); continue; } // would be cut off\n      var key = el.getAttribute('data-adfix-key') || KEYS[size];\n      el.setAttribute('data-adfix', 'seen');\n      var fr = el.querySelector('iframe');\n      if (fr && !fr.classList.contains('adfix-keep')) { fr.style.display = 'none'; try { fr.src = 'about:blank'; } catch (e) {} }\n      if (!key || (used[key] && !C.reuse)) {          // no free ad unit for this spot: collapse it\n        el.setAttribute('data-adfix', 'empty'); el.classList.add('adfix-empty'); continue;\n      }\n      used[key] = (used[key] || 0) + 1; el.setAttribute('data-adfix', 'mounted');\n      queue.push({ el: el, key: key, size: size });\n    }\n    pump();\n  }\n  var t = null; function later() { clearTimeout(t); t = setTimeout(scanAll, 300); }\n  function addExtras() {\n    (C.extra || []).forEach(function (x, i) {\n      if (document.getElementById('adfix-x' + i)) return;\n      var anchor = x.anchor ? document.querySelector(x.anchor) : document.body; if (!anchor) return;\n      var d = document.createElement('div'); d.id = 'adfix-x' + i;\n      d.className = 'adfix-slot ' + (x.cls || ''); d.setAttribute('aria-label', 'Advertisement');\n      d.setAttribute('data-adfix-size', x.size); if (x.key) d.setAttribute('data-adfix-key', x.key);\n      if (x.where === 'before') anchor.parentNode.insertBefore(d, anchor);\n      else if (x.where === 'after') anchor.parentNode.insertBefore(d, anchor.nextSibling);\n      else if (x.where === 'prepend') anchor.insertBefore(d, anchor.firstChild);\n      else anchor.appendChild(d);\n    });\n  }\n  function scanAll() { addExtras(); scan(); }\n  function start() {\n    setTimeout(scanAll, 800);\n    new MutationObserver(later).observe(document.body, { childList: true, subtree: true });\n    window.addEventListener('resize', later);\n  }\n  if (document.readyState === 'complete') start(); else window.addEventListener('load', start);\n})();\n";
+const ADFIX_CSS =
+  '.adfix-empty{display:none!important}\n.adfix-holder iframe{display:block;margin:0 auto}\n.adfix-rail{display:none}\n@media (min-width:1520px){\n  .adfix-rail{display:block;position:fixed;top:130px;width:160px;height:600px;z-index:20}\n  .adfix-rail-left{left:calc(50% - 576px - 176px)}\n  .adfix-rail-right{right:calc(50% - 576px - 176px)}\n}\n.adfix-footer{width:100%;justify-content:center;padding:12px 0}\n.adfix-footer-desktop{display:none}\n.adfix-footer-mobile{display:flex}\n@media (min-width:768px){.adfix-footer-desktop{display:flex}.adfix-footer-mobile{display:none}}\n';
+const ADFIX_CFG = {
+  reuse: true,
+  keys: {
+    '728x90': '5283bd2b5651ed29b740fd9cc6cf0829',
+    '468x60': 'f0847b970c8514cd6550c2d89245dbb2',
+    '300x250': 'f21ee4f8302fc794390db577916f71e5',
+    '160x600': 'c18fdea92b0e33241b2a8a519eb6065c',
+    '160x300': 'af38b71c65d63202d6cf8841527a1861',
+    '320x50': '10ca6c2fb83967a7598a2680f98fdadc',
+  },
+  selector: '.adsterra-slot[data-ad-slot], [data-adfix-size]',
+};
+const HEAD_INJECT =
+  '<link rel="stylesheet" href="/__adfix/adfix.css?v=3"/><script>window.__ADFIX=' +
+  JSON.stringify(ADFIX_CFG) +
+  '</script><script src="/__adfix/adfix.js?v=3" defer></script>';
 
 function adfixAsset(url) {
-  if (url.pathname === '/__adfix/adfix.js') return new Response(ADFIX_JS, { headers: { 'content-type': 'application/javascript; charset=utf-8', 'cache-control': 'public, max-age=300' } });
-  if (url.pathname === '/__adfix/adfix.css') return new Response(ADFIX_CSS, { headers: { 'content-type': 'text/css; charset=utf-8', 'cache-control': 'public, max-age=300' } });
+  if (url.pathname === '/__adfix/adfix.js')
+    return new Response(ADFIX_JS, {
+      headers: {
+        'content-type': 'application/javascript; charset=utf-8',
+        'cache-control': 'public, max-age=300',
+      },
+    });
+  if (url.pathname === '/__adfix/adfix.css')
+    return new Response(ADFIX_CSS, {
+      headers: {
+        'content-type': 'text/css; charset=utf-8',
+        'cache-control': 'public, max-age=300',
+      },
+    });
   return null;
 }
 // Ask assets for a full response (no 304) so the injected version is always what the browser keeps.
 function fresh(request) {
-  const h = new Headers(request.headers); h.delete('if-none-match'); h.delete('if-modified-since');
+  const h = new Headers(request.headers);
+  h.delete('if-none-match');
+  h.delete('if-modified-since');
   return new Request(request, { headers: h });
 }
 function withoutEtag(res) {
-  const h = new Headers(res.headers); h.delete('etag'); h.delete('content-length');
-  return new Response(res.body, { status: res.status, statusText: res.statusText, headers: h });
+  const h = new Headers(res.headers);
+  h.delete('etag');
+  h.delete('content-length');
+  return new Response(res.body, {
+    status: res.status,
+    statusText: res.statusText,
+    headers: h,
+  });
 }
 
 const SECURITY_HEADERS = {
@@ -27,58 +63,140 @@ const SECURITY_HEADERS = {
 };
 // Same policy as _headers "/*", plus https: (and wss:) on script/connect/img/frame/style/font so the
 // rotating Adsterra domains are not blocked. WASM/CDN rules are kept as they were.
-const SITE_CSP = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-eval' 'unsafe-inline' blob: https://cdn.jsdelivr.net/npm/@bentopdf/pymupdf-wasm@0.11.16/ https://cdn.jsdelivr.net/npm/@bentopdf/gs-wasm@0.1.1/assets/ https://cdn.jsdelivr.net/npm/coherentpdf@2.5.5/dist/ https://cdn.jsdelivr.net/npm/tesseract.js@v7.0.0/dist/ https://cdn.jsdelivr.net/npm/tesseract.js-core@v7.0.0/ https://www.highrevenueformat.com https://pl32319811.profitableratecpmnetwork.com https://pl32319844.profitableratecpmnetwork.com https://pl32319846.profitableratecpmnetwork.com https://www.profitableratecpmnetwork.com https:; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https:; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com https://rawcdn.githack.com https:; connect-src 'self' blob: https://fonts.gstatic.com https://cdn.jsdelivr.net https://bentopdf-cors-proxy.bentopdf.workers.dev https://rawcdn.githack.com https://www.highrevenueformat.com https://pl32319811.profitableratecpmnetwork.com https://pl32319844.profitableratecpmnetwork.com https://pl32319846.profitableratecpmnetwork.com https://www.profitableratecpmnetwork.com https: wss:; object-src 'none'; base-uri 'self'; frame-src 'self' blob: https:; frame-ancestors 'self'; form-action 'self'";
-const ISOLATED_RE = /^\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?(?:word|excel|powerpoint|odt|ods|odp|odg|rtf|wps|wpd|pub|vsd|pages)-to-pdf(?:\.html)?\/?$|^\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?(?:pdf-to-tiff|pdf-workflow)(?:\.html)?\/?$/;
+const SITE_CSP =
+  "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-eval' 'unsafe-inline' blob: https://cdn.jsdelivr.net/npm/@bentopdf/pymupdf-wasm@0.11.16/ https://cdn.jsdelivr.net/npm/@bentopdf/gs-wasm@0.1.1/assets/ https://cdn.jsdelivr.net/npm/coherentpdf@2.5.5/dist/ https://cdn.jsdelivr.net/npm/tesseract.js@v7.0.0/dist/ https://cdn.jsdelivr.net/npm/tesseract.js-core@v7.0.0/ https://www.highrevenueformat.com https://pl32319811.profitableratecpmnetwork.com https://pl32319844.profitableratecpmnetwork.com https://pl32319846.profitableratecpmnetwork.com https://www.profitableratecpmnetwork.com https:; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https:; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com https://rawcdn.githack.com https:; connect-src 'self' blob: https://fonts.gstatic.com https://cdn.jsdelivr.net https://bentopdf-cors-proxy.bentopdf.workers.dev https://rawcdn.githack.com https://www.highrevenueformat.com https://pl32319811.profitableratecpmnetwork.com https://pl32319844.profitableratecpmnetwork.com https://pl32319846.profitableratecpmnetwork.com https://www.profitableratecpmnetwork.com https: wss:; object-src 'none'; base-uri 'self'; frame-src 'self' blob: https:; frame-ancestors 'self'; form-action 'self'";
+const ISOLATED_RE =
+  /^\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?(?:word|excel|powerpoint|odt|ods|odp|odg|rtf|wps|wpd|pub|vsd|pages)-to-pdf(?:\.html)?\/?$|^\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?(?:pdf-to-tiff|pdf-workflow)(?:\.html)?\/?$/;
+const AD_TOP =
+  '<div class="adsterra-header-wrap container mx-auto px-4 py-2 flex justify-center"><aside class="ad-container adsterra-slot" data-ad-slot="banner728x90" aria-label="Advertisement"></aside></div>';
+const AD_MID =
+  '<div class="adsterra-mid-wrap max-w-4xl mx-auto px-4 py-4 flex flex-col items-center gap-4"><aside class="ad-container adsterra-slot" data-ad-slot="banner300x250" aria-label="Advertisement"></aside><aside class="ad-container adsterra-slot" data-ad-slot="banner468x60" aria-label="Advertisement"></aside></div>';
+const AD_STICKY =
+  '<div class="h-14 xl:hidden" aria-hidden="true"></div><div class="adsterra-mobile-sticky xl:hidden" style="position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;background:rgba(17,24,39,.95);border-top:1px solid rgba(255,255,255,.1);padding:4px 0"><aside class="ad-container adsterra-slot" data-ad-slot="banner320x50" aria-label="Advertisement"></aside></div><style>@media (min-width:1280px){.adsterra-mobile-sticky{display:none!important}}</style>';
 const MAIN_RE = /^\/assets\/main-[^/]+\.js$/;
-const WRAPPER_INVOKE = '<script src="https://www.highrevenueformat.com/${t.key}/invoke.js"><\\/script>';
+const WRAPPER_INVOKE =
+  '<script src="https://www.highrevenueformat.com/${t.key}/invoke.js"><\\/script>';
 
 function finish(response, url) {
   const headers = new Headers(response.headers);
-  for (const [key, value] of Object.entries(SECURITY_HEADERS)) headers.set(key, value);
+  for (const [key, value] of Object.entries(SECURITY_HEADERS))
+    headers.set(key, value);
   // Cross-origin isolation (COEP/COOP) blocks Adsterra's banner iframes. Keep it only on HTML pages
   // that need SharedArrayBuffer (LibreOffice WASM converters, PDF to TIFF, workflow); every other
   // page drops it so ads can render. Non-HTML responses keep it (workers/wasm of isolated pages).
-  if ((headers.get('content-type') || '').includes('text/html') && !ISOLATED_RE.test(url.pathname)) {
+  if (
+    (headers.get('content-type') || '').includes('text/html') &&
+    !ISOLATED_RE.test(url.pathname)
+  ) {
     headers.delete('Cross-Origin-Embedder-Policy');
     headers.delete('Cross-Origin-Opener-Policy');
   }
-  if (!(url.pathname === '/docs' || url.pathname.startsWith('/docs/'))) headers.set('Content-Security-Policy', SITE_CSP);
-  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+  if (!(url.pathname === '/docs' || url.pathname.startsWith('/docs/')))
+    headers.set('Content-Security-Policy', SITE_CSP);
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
 }
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    const a = adfixAsset(url); if (a) return a;
-    const isDocs = url.pathname === '/docs' || url.pathname.startsWith('/docs/');
+    const a = adfixAsset(url);
+    if (a) return a;
+    const isDocs =
+      url.pathname === '/docs' || url.pathname.startsWith('/docs/');
     let response = await env.ASSETS.fetch(isDocs ? request : fresh(request));
     if (response.status === 404 && !url.pathname.includes('.')) {
       const indexUrl = new URL('/index.html', url.origin);
-      response = await env.ASSETS.fetch(new Request(indexUrl.toString(), fresh(request)));
+      response = await env.ASSETS.fetch(
+        new Request(indexUrl.toString(), fresh(request))
+      );
     }
     if (url.pathname.startsWith('/libreoffice-wasm/')) {
-      const upstream = new URL(url.pathname + url.search, 'https://www.bentopdf.com');
-      response = await fetch(upstream.toString(), { headers: { 'User-Agent': 'FreePDFConverter-Worker/1.0' } });
+      const upstream = new URL(
+        url.pathname + url.search,
+        'https://www.bentopdf.com'
+      );
+      response = await fetch(upstream.toString(), {
+        headers: { 'User-Agent': 'FreePDFConverter-Worker/1.0' },
+      });
       return finish(response, url);
     }
     if (isDocs) return finish(response, url);
     if (MAIN_RE.test(url.pathname) && response.ok) {
       const js = await response.text();
       if (js.includes(WRAPPER_INVOKE)) {
-        const h = new Headers(response.headers); h.delete('etag'); h.delete('content-length');
-        response = new Response(js.split(WRAPPER_INVOKE).join(''), { status: 200, headers: h });
+        const h = new Headers(response.headers);
+        h.delete('etag');
+        h.delete('content-length');
+        response = new Response(js.split(WRAPPER_INVOKE).join(''), {
+          status: 200,
+          headers: h,
+        });
       } else {
-        response = new Response(js, { status: response.status, headers: response.headers });
+        response = new Response(js, {
+          status: response.status,
+          headers: response.headers,
+        });
       }
       return finish(response, url);
     }
-    if (!(response.headers.get('content-type') || '').includes('text/html')) return finish(response, url);
+    if (!(response.headers.get('content-type') || '').includes('text/html'))
+      return finish(response, url);
     // Popunder: load it at the end of <body> (in <head> it runs before document.body exists -> appendChild on null)
     let pop = null;
+    let topDone = false;
+    let hasMid = false;
+    let footerSeen = false;
     const out = new HTMLRewriter()
-      .on('head', { element(e) { e.append(HEAD_INJECT, { html: true }); } })
-      .on('script[data-fpc-popunder]', { element(e) { pop = e.getAttribute('src'); e.remove(); } })
-      .on('body', { element(e) { e.onEndTag((end) => { if (pop) end.before('<script src="' + pop + '" data-fpc-popunder="1"></script>', { html: true }); }); } })
+      .on('head', {
+        element(e) {
+          e.append(HEAD_INJECT, { html: true });
+        },
+      })
+      // Ads on every page: a top banner right under the main nav, a mid block before the footer
+      // (unless the page already has one), and a sticky banner on phones.
+      .on('nav.fpc-nav', {
+        element(e) {
+          if (!topDone) {
+            topDone = true;
+            e.after(AD_TOP, { html: true });
+          }
+        },
+      })
+      .on('[data-ad-slot]', {
+        element() {
+          if (!footerSeen) hasMid = true;
+        },
+      })
+      .on('footer', {
+        element(e) {
+          if (!footerSeen) {
+            footerSeen = true;
+            if (!hasMid) e.before(AD_MID, { html: true });
+          }
+        },
+      })
+      .on('script[data-fpc-popunder]', {
+        element(e) {
+          pop = e.getAttribute('src');
+          e.remove();
+        },
+      })
+      .on('body', {
+        element(e) {
+          e.onEndTag((end) => {
+            end.before(AD_STICKY, { html: true });
+            if (pop)
+              end.before(
+                '<script src="' + pop + '" data-fpc-popunder="1"></script>',
+                { html: true }
+              );
+          });
+        },
+      })
       .transform(response);
     return finish(withoutEtag(out), url);
   },
