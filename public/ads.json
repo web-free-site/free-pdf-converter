@@ -1,0 +1,39 @@
+{
+  "popunderScript": "https://pl32315428.profitableratecpmnetwork.com/87/94/2c/87942c9f7e1f5ac5298126555b03f293.js",
+  "socialBarScript": "https://pl32315431.profitableratecpmnetwork.com/4c/34/53/4c3453dcd67d03bbf7d063a4f28eefe5.js",
+  "nativeInvokeScript": "https://pl32315429.profitableratecpmnetwork.com/5b7549efc929a145b7177907a7eccdae/invoke.js",
+  "nativeContainerId": "container-5b7549efc929a145b7177907a7eccdae",
+  "smartlinkUrl": "https://www.profitableratecpmnetwork.com/jhxstwqv?key=8abb214dcbe2ade69d61ae1e2dc19545",
+  "banners": {
+    "banner728x90": {
+      "key": "f17e7fec53856143482f3c086d690966",
+      "width": 728,
+      "height": 90
+    },
+    "banner468x60": {
+      "key": "f8bc7baee828ab02f16244167db70b07",
+      "width": 468,
+      "height": 60
+    },
+    "banner300x250": {
+      "key": "e1f1cb70790649bec9ca312d1c1571f2",
+      "width": 300,
+      "height": 250
+    },
+    "banner160x600": {
+      "key": "6a59be84817ecba8896369c313a49deb",
+      "width": 160,
+      "height": 600
+    },
+    "banner160x300": {
+      "key": "de04c23e5816d9792eaa445e6fff0877",
+      "width": 160,
+      "height": 300
+    },
+    "banner320x50": {
+      "key": "6fbb89c053686b648340aab4a05842bb",
+      "width": 320,
+      "height": 50
+    }
+  }
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Free PDF Converter">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#0f172a"/>
+  <path fill="url(#g)" d="M18 14h22c8 0 14 6 14 14v16c0 8-6 14-14 14H18V14zm6 10v28h16c5 0 8-3 8-8V28c0-5-3-8-8-8H24z"/>
+  <path fill="#fff" opacity=".95" d="M30 22h8v4h-8v-4zm0 10h14v4H30v-4zm0 10h10v4H30v-4z"/>
+  <text x="32" y="58" text-anchor="middle" fill="#5eead4" font-family="system-ui,sans-serif" font-size="7" font-weight="700">FREE</text>
+</svg>

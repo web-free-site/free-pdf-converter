@@ -1,0 +1,12 @@
+.adfix-empty{display:none!important}
+.adfix-holder iframe{display:block;margin:0 auto}
+.adfix-rail{display:none}
+@media (min-width:1520px){
+  .adfix-rail{display:block;position:fixed;top:130px;width:160px;height:600px;z-index:20}
+  .adfix-rail-left{left:calc(50% - 576px - 176px)}
+  .adfix-rail-right{right:calc(50% - 576px - 176px)}
+}
+.adfix-footer{width:100%;justify-content:center;padding:12px 0}
+.adfix-footer-desktop{display:none}
+.adfix-footer-mobile{display:flex}
+@media (min-width:768px){.adfix-footer-desktop{display:flex}.adfix-footer-mobile{display:none}}
