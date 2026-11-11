@@ -1,7 +1,11 @@
 name = "free-pdf-converter"
 main = "worker/static-site.js"
 compatibility_date = "2024-11-01"
-account_id = "9b2252baefadd95947f73bc833b3234f"
+account_id = "c26dbba499d049a1051c152c720cf4c5"
+
+[[routes]]
+pattern = "free-pdf-converter.web-free.site"
+custom_domain = true
 
 [assets]
 directory = "./dist"

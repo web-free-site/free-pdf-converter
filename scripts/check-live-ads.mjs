@@ -1,8 +1,7 @@
 import { chromium } from 'playwright';
 
 const url =
-  process.env.CHECK_URL ||
-  'https://free-pdf-converter.gentillenoir075.workers.dev/merge-pdf';
+  process.env.CHECK_URL || 'https://free-pdf-converter.web-free.site/merge-pdf';
 
 async function check(viewport, label) {
   const browser = await chromium.launch({ headless: true });
