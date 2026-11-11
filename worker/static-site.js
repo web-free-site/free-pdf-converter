@@ -28,12 +28,20 @@ const SECURITY_HEADERS = {
 // Same policy as _headers "/*", plus https: (and wss:) on script/connect/img/frame/style/font so the
 // rotating Adsterra domains are not blocked. WASM/CDN rules are kept as they were.
 const SITE_CSP = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-eval' 'unsafe-inline' blob: https://cdn.jsdelivr.net/npm/@bentopdf/pymupdf-wasm@0.11.16/ https://cdn.jsdelivr.net/npm/@bentopdf/gs-wasm@0.1.1/assets/ https://cdn.jsdelivr.net/npm/coherentpdf@2.5.5/dist/ https://cdn.jsdelivr.net/npm/tesseract.js@v7.0.0/dist/ https://cdn.jsdelivr.net/npm/tesseract.js-core@v7.0.0/ https://www.highrevenueformat.com https://pl32319811.profitableratecpmnetwork.com https://pl32319844.profitableratecpmnetwork.com https://pl32319846.profitableratecpmnetwork.com https://www.profitableratecpmnetwork.com https:; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https:; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com https://rawcdn.githack.com https:; connect-src 'self' blob: https://fonts.gstatic.com https://cdn.jsdelivr.net https://bentopdf-cors-proxy.bentopdf.workers.dev https://rawcdn.githack.com https://www.highrevenueformat.com https://pl32319811.profitableratecpmnetwork.com https://pl32319844.profitableratecpmnetwork.com https://pl32319846.profitableratecpmnetwork.com https://www.profitableratecpmnetwork.com https: wss:; object-src 'none'; base-uri 'self'; frame-src 'self' blob: https:; frame-ancestors 'self'; form-action 'self'";
+const ISOLATED_RE = /^\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?(?:word|excel|powerpoint|odt|ods|odp|odg|rtf|wps|wpd|pub|vsd|pages)-to-pdf(?:\.html)?\/?$|^\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?(?:pdf-to-tiff|pdf-workflow)(?:\.html)?\/?$/;
 const MAIN_RE = /^\/assets\/main-[^/]+\.js$/;
 const WRAPPER_INVOKE = '<script src="https://www.highrevenueformat.com/${t.key}/invoke.js"><\\/script>';
 
 function finish(response, url) {
   const headers = new Headers(response.headers);
   for (const [key, value] of Object.entries(SECURITY_HEADERS)) headers.set(key, value);
+  // Cross-origin isolation (COEP/COOP) blocks Adsterra's banner iframes. Keep it only on HTML pages
+  // that need SharedArrayBuffer (LibreOffice WASM converters, PDF to TIFF, workflow); every other
+  // page drops it so ads can render. Non-HTML responses keep it (workers/wasm of isolated pages).
+  if ((headers.get('content-type') || '').includes('text/html') && !ISOLATED_RE.test(url.pathname)) {
+    headers.delete('Cross-Origin-Embedder-Policy');
+    headers.delete('Cross-Origin-Opener-Policy');
+  }
   if (!(url.pathname === '/docs' || url.pathname.startsWith('/docs/'))) headers.set('Content-Security-Policy', SITE_CSP);
   return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
 }
