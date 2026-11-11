@@ -9,7 +9,7 @@ const puppeteer = require('puppeteer-core');
   page.on('request', async r => {
     if (r.url()===url && mode!=='orig') {
       const resp = await fetch(url); let h = await resp.text();
-      if (mode==='inline') h = h.replace(/<iframe title="Advertisement" src="\/ads\/units\/728x90\/"[^>]*><\/iframe>/, '<div id="inl"><script>atOptions={key:"5c9209a74e583647d1cf22533f4a67ec",format:"iframe",height:90,width:728,params:{}};<\/script><script src="https://www.highrevenueformat.com/5c9209a74e583647d1cf22533f4a67ec/invoke.js"><\/script></div>');
+      if (mode==='inline') h = h.replace(/<iframe title="Advertisement" src="\/ads\/units\/728x90\/"[^>]*><\/iframe>/, '<div id="inl"><script>atOptions={key:"0d6df8563c5d8a624e0d31b45c4c4c1f",format:"iframe",height:90,width:728,params:{}};<\/script><script src="https://www.highrevenueformat.com/0d6df8563c5d8a624e0d31b45c4c4c1f/invoke.js"><\/script></div>');
       if (mode==='nosandbox') h = h.replace(/ sandbox="[^"]*"/g,'');
       if (mode==='popups') h = h.replace(/ sandbox="[^"]*"/g,' sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"');
       r.respond({status:200, contentType:'text/html; charset=utf-8', body:h});

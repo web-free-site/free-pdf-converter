@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer-core');
 (async () => {
   const base='https://free-word-counter.gentillenoir075.workers.dev';
   const browser = await puppeteer.launch({executablePath:'/usr/bin/google-chrome', headless:false, args:['--no-sandbox','--user-data-dir=/tmp/pp-exp2']});
-  const K='5c9209a74e583647d1cf22533f4a67ec';
+  const K='0d6df8563c5d8a624e0d31b45c4c4c1f';
   const pages = {
     '/t-inline/': `<!DOCTYPE html><html><body><h1>Test</h1><div id="slot"><script>atOptions={key:"${K}",format:"iframe",height:90,width:728,params:{}};</script><script src="https://www.highrevenueformat.com/${K}/invoke.js"></script></div><p>after</p></body></html>`,
     '/t-nested/': `<!DOCTYPE html><html><body><h1>Test</h1><iframe src="/ads/units/728x90/" width="728" height="90" style="border:0"></iframe><p>after</p></body></html>`,

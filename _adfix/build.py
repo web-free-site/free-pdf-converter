@@ -26,7 +26,7 @@ def worker(name, cfg, body):
     src += common % (json.dumps(JS), json.dumps(CSS), json.dumps(cfg)) + body
     open(f'{name}/worker.js','w').write(src)
 
-K_WC={"728x90":"5c9209a74e583647d1cf22533f4a67ec","320x50":"f1c44cf96bbc87227534c56600199bd6","160x300":"7e6d32ce6f43ab84081d3b432624aa85","160x600":"94ed6e50cbef67adf6251816ff0be2af","300x250":"6b8fcd5fd4bf0148d60c3df283add5b0","468x60":"78b9ee50f23ea9c2bdcf9fe8592c45b4"}
+K_WC={'728x90': '0d6df8563c5d8a624e0d31b45c4c4c1f', '320x50': 'e70a1500095921322b36beed5e0d2f21', '160x300': 'ab0903299c7bc11fd8411ffc068cfd0d', '160x600': 'bcc336dd9890ecce12790dfe47f053ac', '300x250': 'e0900dbae2d68e0f3bd1242b5277d897', '468x60': '27d547760dd32bb4722eead7a1e6f713'}
 worker('free-word-counter', {"reuse":True,"keys":K_WC,"extra":[
   {"size":"160x600","cls":"adfix-rail adfix-rail-left"},
   {"size":"160x600","cls":"adfix-rail adfix-rail-right"}]}, r'''
@@ -46,7 +46,7 @@ export default {
 };
 ''')
 
-K_QR={"728x90":"ffd4b6797b163bf19094633187c70d21","160x600":"3fa6a2ec0ae111513980a5fd377ecf83","160x300":"9103448da4a6bf38e6aa0a129da7541f","300x250":"def55bcdb3d2fd936bcf60a66ab779e3","468x60":"3c78a587ae4716dfa0d5b5325d1ccc8e","320x50":"13b776b53cb4a8bb57ba08f3c3948b79"}
+K_QR={'728x90': '554caa81b537454383b512e8c3ef5eb5', '160x600': '85e8a3d16d136647176693c7dcfe7ee8', '160x300': 'c0f7ac05ed1ab1a096e7fd67d00581a7', '300x250': '920434e478abde19bbcb22cb49437906', '468x60': '43e928c9c5d63bed41a481f9bffdb981', '320x50': '75b9d701d102e29d9e1c47330ff98220'}
 worker('free-qr-code-creator', {"reuse":True,"keys":K_QR,"extra":[
   {"size":"160x600","cls":"adfix-rail adfix-rail-left"},
   {"size":"160x600","cls":"adfix-rail adfix-rail-right"},
@@ -73,7 +73,7 @@ export default {
 };
 ''')
 
-K_PDF={"728x90":"f17e7fec53856143482f3c086d690966","468x60":"f8bc7baee828ab02f16244167db70b07","300x250":"e1f1cb70790649bec9ca312d1c1571f2","160x600":"6a59be84817ecba8896369c313a49deb","160x300":"de04c23e5816d9792eaa445e6fff0877","320x50":"6fbb89c053686b648340aab4a05842bb"}
+K_PDF={'728x90': '5283bd2b5651ed29b740fd9cc6cf0829', '468x60': 'f0847b970c8514cd6550c2d89245dbb2', '300x250': 'f21ee4f8302fc794390db577916f71e5', '160x600': 'c18fdea92b0e33241b2a8a519eb6065c', '160x300': 'af38b71c65d63202d6cf8841527a1861', '320x50': '10ca6c2fb83967a7598a2680f98fdadc'}
 CSP=open('pdf-csp-new.txt').read().strip()
 worker('free-pdf-converter', {"reuse":True,"keys":K_PDF,"selector":".adsterra-slot[data-ad-slot], [data-adfix-size]"}, r'''
 const SECURITY_HEADERS = {
@@ -132,4 +132,43 @@ export default {
   },
 };
 ''' % json.dumps(CSP))
+
+K_CALC={"728x90":"d733edfba583cf4e20028e73075fc4ac","468x60":"90864cbda48c48ef45197597f212fb7c","300x250":"b8f5da038e70124dbbd97c603afe4d7c","160x600":"f620e6537d3643eb71e3884af17257a8","160x300":"3ba66119743e526fddb5646c29d7127e","320x50":"8e36689e552091d18c8651794c88eba5"}
+worker('free-online-calculator', {"reuse":True,"keys":K_CALC,"extra":[
+  {"size":"160x600","cls":"adfix-rail adfix-rail-left"},
+  {"size":"160x600","cls":"adfix-rail adfix-rail-right"}]}, r'''
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    const a = adfixAsset(url); if (a) return a;
+    if (url.pathname.startsWith('/ads/units/')) {
+      return new Response('<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0"></body></html>', { headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=300' } });
+    }
+    const res = await env.ASSETS.fetch(fresh(request));
+    if (!(res.headers.get('content-type') || '').includes('text/html')) return res;
+    const out = new HTMLRewriter().on('head', { element(e) { e.append(HEAD_INJECT, { html: true }); } }).transform(res);
+    return withoutEtag(out);
+  },
+};
+''')
+
+K_IMG={"728x90":"5318c4cbef8228f276629febacccaa24","468x60":"493bf3e75e071ce4fd2c79c9ad0f246c","300x250":"46dcac14381fabc3f7fd172aee974b9f","160x600":"5b936e44448bac2054bdfd748680c404","160x300":"a350d508eba443868807b8a57d67a148","320x50":"ff6628f6a49a22aecd6da0e0f3c324e9"}
+worker('free-image-resizer', {"reuse":True,"keys":K_IMG,"extra":[
+  {"size":"160x600","cls":"adfix-rail adfix-rail-left"},
+  {"size":"160x600","cls":"adfix-rail adfix-rail-right"}]}, r'''
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    const a = adfixAsset(url); if (a) return a;
+    if (url.pathname.startsWith('/ads/units/')) {
+      return new Response('<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="margin:0"></body></html>', { headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=300' } });
+    }
+    const res = await env.ASSETS.fetch(fresh(request));
+    if (!(res.headers.get('content-type') || '').includes('text/html')) return res;
+    const out = new HTMLRewriter().on('head', { element(e) { e.append(HEAD_INJECT, { html: true }); } }).transform(res);
+    return withoutEtag(out);
+  },
+};
+''')
 print('built')
+

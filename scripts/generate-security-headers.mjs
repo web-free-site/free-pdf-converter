@@ -97,9 +97,9 @@ export function buildSecurityHeaders(env = process.env) {
     env.VITE_SHOW_ADSTERRA === 'true'
       ? [
           'https://www.highrevenueformat.com',
-          'https://pl32315428.profitableratecpmnetwork.com',
-          'https://pl32315429.profitableratecpmnetwork.com',
-          'https://pl32315431.profitableratecpmnetwork.com',
+          'https://pl32319811.profitableratecpmnetwork.com',
+          'https://pl32319844.profitableratecpmnetwork.com',
+          'https://pl32319846.profitableratecpmnetwork.com',
           'https://www.profitableratecpmnetwork.com',
         ]
       : [];
