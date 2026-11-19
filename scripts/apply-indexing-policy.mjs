@@ -24,7 +24,7 @@ if (!isIndexingBlocked()) {
     const robots = /<meta\s+name=["']robots["'][^>]*>/i;
     const next = robots.test(html)
       ? html.replace(robots, NOINDEX_META)
-      : html.replace(/<\/head>/i, `  ${NOINDEX_META}\n  </head>`);
+      : html.replace(/<\/head>/i, `  ${NOINDEX_META}\n</head>`);
     if (next !== html) {
       fs.writeFileSync(file, next);
       updated++;
