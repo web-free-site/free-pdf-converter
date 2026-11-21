@@ -12,10 +12,6 @@
     "noLanguagesFound": "Nenašli sa žiadne jazyky",
     "breadcrumb": "Navigačná cesta"
   },
-  "donation": {
-    "message": "Páči sa vám BentoPDF? Pomôžte nám udržať ho bezplatný a open source!",
-    "button": "Prispieť"
-  },
   "hero": {
     "title": "Sada",
     "pdfToolkit": "PDF nástrojov",
@@ -24,9 +20,6 @@
     "unlimitedUse": "Neobmedzené používanie",
     "worksOffline": "Funguje offline",
     "startUsing": "Začať používať teraz"
-  },
-  "usedBy": {
-    "title": "Používajú spoločnosti a ľudia, ktorí pracujú v"
   },
   "features": {
     "title": "Prečo si vybrať",
@@ -219,11 +212,6 @@
       "question": "Používate súbory cookie alebo analytiku na moje sledovanie?",
       "answer": "Nie. BentoPDF vás vôbec nesleduje. Nepoužívame cookies, analytiku ani sledovacie skripty – ani na živej webovej stránke bentopdf.com. Nikdy nevieme, kto ste ani čo s nástrojmi robíte."
     }
-  },
-  "testimonials": {
-    "title": "Čo hovoria",
-    "users": "naši",
-    "say": "používatelia"
   },
   "support": {
     "title": "Páči sa vám moja práca?",

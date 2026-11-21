@@ -12,10 +12,6 @@
     "noLanguagesFound": "Ingen sprog fundet",
     "breadcrumb": "Brødkrummesti"
   },
-  "donation": {
-    "message": "Elsker du BentoPDF? Hjælp os med at holde det gratis og open source!",
-    "button": "Donér"
-  },
   "hero": {
     "title": "Den",
     "pdfToolkit": "PDF-værktøjskasse",
@@ -24,9 +20,6 @@
     "unlimitedUse": "Ubegrænset brug",
     "worksOffline": "Virker offline",
     "startUsing": "Start med at bruge det nu"
-  },
-  "usedBy": {
-    "title": "Bruges af virksomheder og personer der arbejder hos"
   },
   "features": {
     "title": "Hvorfor vælge",
@@ -219,11 +212,6 @@
       "question": "Bruger I cookies eller analyseværktøjer?",
       "answer": "Nej. BentoPDF sporer dig slet ikke. Vi bruger hverken cookies, analyseværktøjer eller sporingsscripts – heller ikke på den live hjemmeside bentopdf.com. Vi ved aldrig, hvem du er, eller hvad du bruger værktøjerne til."
     }
-  },
-  "testimonials": {
-    "title": "Hvad vores",
-    "users": "Brugere",
-    "say": "Siger"
   },
   "support": {
     "title": "Kan du lide mit arbejde?",

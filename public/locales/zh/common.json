@@ -12,10 +12,6 @@
     "noLanguagesFound": "未找到语言",
     "breadcrumb": "面包屑导航"
   },
-  "donation": {
-    "message": "喜欢 BentoPDF？帮助我们保持免费和开源！",
-    "button": "捐赠"
-  },
   "hero": {
     "title": "专为隐私打造的",
     "pdfToolkit": "PDF 工具箱",
@@ -24,9 +20,6 @@
     "unlimitedUse": "无限使用",
     "worksOffline": "离线可用",
     "startUsing": "立即开始"
-  },
-  "usedBy": {
-    "title": "被众多公司和个人信赖，包括"
   },
   "features": {
     "title": "为什么选择",
@@ -219,11 +212,6 @@
       "question": "你们使用 Cookie 或分析来跟踪我吗？",
       "answer": "不会。BentoPDF 完全不会追踪您。我们不使用 Cookie、分析工具或任何追踪脚本，即使在正式网站 bentopdf.com 上也是如此。我们永远不知道您是谁，也不知道您用这些工具做了什么。"
     }
-  },
-  "testimonials": {
-    "title": "我们的",
-    "users": "用户",
-    "say": "评价"
   },
   "support": {
     "title": "喜欢这个项目？",

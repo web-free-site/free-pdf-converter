@@ -46,15 +46,6 @@ const FAVORITE_STAR_PATHS = [
 ] as const;
 declare const __BRAND_NAME__: string;
 
-const adsSection = document.getElementById('ads-section');
-if (
-  adsSection &&
-  (['bentopdf.com', 'www.bentopdf.com'].includes(window.location.hostname) ||
-    import.meta.env.DEV)
-) {
-  adsSection.hidden = false;
-}
-
 const init = async () => {
   await initI18n();
   await loadRuntimeConfig();
@@ -114,24 +105,9 @@ const init = async () => {
         faqSection.style.display = 'none';
       }
 
-      const testimonialsSection = document.getElementById(
-        'testimonials-section'
-      );
-      if (testimonialsSection) {
-        testimonialsSection.style.display = 'none';
-      }
-
       const supportSection = document.getElementById('support-section');
       if (supportSection) {
         supportSection.style.display = 'none';
-      }
-
-      // Hide "Used by companies" section
-      const usedBySection = document.querySelector(
-        '.hide-section'
-      ) as HTMLElement;
-      if (usedBySection) {
-        usedBySection.style.display = 'none';
       }
 
       const sectionDividers = document.querySelectorAll('.section-divider');

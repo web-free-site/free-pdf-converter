@@ -12,10 +12,6 @@
     "noLanguagesFound": "Geen talen gevonden",
     "breadcrumb": "Broodkruimelpad"
   },
-  "donation": {
-    "message": "Vind je BentoPDF geweldig? Help ons het gratis en open source te houden!",
-    "button": "Donatie"
-  },
   "hero": {
     "title": "De",
     "pdfToolkit": "PDF Toolkit",
@@ -24,9 +20,6 @@
     "unlimitedUse": "Onbegrenst gebruik",
     "worksOffline": "Werkt offline",
     "startUsing": "Direct aan de slag"
-  },
-  "usedBy": {
-    "title": "Gebruikt door bedrijven en personen werkzaam bij"
   },
   "features": {
     "title": "Waarom",
@@ -219,11 +212,6 @@
       "question": "Gebruikt BentoPDF cookies of analytics om mij te volgen?",
       "answer": "Nee. BentoPDF volgt je helemaal niet. We gebruiken geen cookies, analytics of trackingscripts – ook niet op de live website bentopdf.com. We weten nooit wie je bent of wat je met de tools doet."
     }
-  },
-  "testimonials": {
-    "title": "Wat onze",
-    "users": "Gebruikers",
-    "say": "Vertellen"
   },
   "support": {
     "title": "Vind je mijn werk leuk?",

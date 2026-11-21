@@ -12,10 +12,6 @@
     "noLanguagesFound": "No s'ha trobat cap idioma",
     "breadcrumb": "Ruta de navegació"
   },
-  "donation": {
-    "message": "T'agrada BentoPDF? Ajuda'ns a mantenir-lo gratuït i de codi obert!",
-    "button": "Fes una donació"
-  },
   "hero": {
     "title": "El",
     "pdfToolkit": "conjunt d'eines PDF",
@@ -24,9 +20,6 @@
     "unlimitedUse": "Ús il·limitat",
     "worksOffline": "Funciona sense connexió",
     "startUsing": "Comença a utilitzar-lo"
-  },
-  "usedBy": {
-    "title": "Utilitzat per empreses i persones que treballen a"
   },
   "features": {
     "title": "Per què triar",
@@ -219,11 +212,6 @@
       "question": "Utilitzeu galetes o eines d'analítica per fer-me seguiment?",
       "answer": "No. BentoPDF no et fa cap seguiment. No utilitzem galetes, analítica ni scripts de seguiment, ni tan sols al web públic bentopdf.com. No sabem mai qui ets ni què fas amb les eines."
     }
-  },
-  "testimonials": {
-    "title": "Què diuen els nostres",
-    "users": "usuaris",
-    "say": "sobre nosaltres"
   },
   "support": {
     "title": "T'agrada la meva feina?",

@@ -12,10 +12,6 @@
     "noLanguagesFound": "Bahasa tidak ditemukan",
     "breadcrumb": "Navigasi breadcrumb"
   },
-  "donation": {
-    "message": "Suka BentoPDF? Bantu kami menjaganya tetap gratis dan sumber terbuka!",
-    "button": "Donasi"
-  },
   "hero": {
     "title": " ",
     "pdfToolkit": "Toolkit PDF",
@@ -24,9 +20,6 @@
     "unlimitedUse": "Penggunaan Tak Terbatas",
     "worksOffline": "Bekerja Offline ",
     "startUsing": "Mulai Menggunakan Sekarang"
-  },
-  "usedBy": {
-    "title": "Digunakan oleh perusahaan dan orang yang bekerja di"
   },
   "features": {
     "title": "Mengapa memilih",
@@ -219,11 +212,6 @@
       "question": "Apakah Anda menggunakan cookie atau analitik untuk melacak saya?",
       "answer": "Tidak. BentoPDF sama sekali tidak melacak Anda. Kami tidak menggunakan cookie, analitik, atau skrip pelacakan apa pun, bahkan di situs web langsung bentopdf.com. Kami tidak pernah tahu siapa Anda atau apa yang Anda lakukan dengan alat-alat ini."
     }
-  },
-  "testimonials": {
-    "title": "Apa Kata",
-    "users": "Pengguna",
-    "say": "Kami"
   },
   "support": {
     "title": "Suka Karya Saya?",

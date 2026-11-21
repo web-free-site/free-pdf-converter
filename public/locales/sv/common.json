@@ -12,10 +12,6 @@
     "noLanguagesFound": "Inga språk hittades",
     "breadcrumb": "Sökväg"
   },
-  "donation": {
-    "message": "Gillar du BentoPDF? Hjälp oss att hålla det gratis och öppen källkod!",
-    "button": "Donera"
-  },
   "hero": {
     "title": " ",
     "pdfToolkit": "PDF-verktygslådan",
@@ -24,9 +20,6 @@
     "unlimitedUse": "Obegränsad användning",
     "worksOffline": "Fungerar offline",
     "startUsing": "Börja använda nu"
-  },
-  "usedBy": {
-    "title": "Används av företag och personer som arbetar på"
   },
   "features": {
     "title": "Varför välja",
@@ -219,11 +212,6 @@
       "question": "Använder ni cookies eller analys för att spåra mig?",
       "answer": "Nej. BentoPDF spårar dig inte alls. Vi använder inga cookies, ingen analys och inga spårningsskript, inte ens på den publika webbplatsen bentopdf.com. Vi vet aldrig vem du är eller vad du gör med verktygen."
     }
-  },
-  "testimonials": {
-    "title": "Vad våra",
-    "users": "användare",
-    "say": "säger"
   },
   "support": {
     "title": "Gillar du mitt arbete?",

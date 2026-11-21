@@ -12,10 +12,6 @@
     "noLanguagesFound": "Nie znaleziono języków",
     "breadcrumb": "Ścieżka nawigacji"
   },
-  "donation": {
-    "message": "Uwielbiasz BentoPDF? Pomóż nam utrzymać go jako darmowe i otwarte oprogramowanie!",
-    "button": "Wesprzyj"
-  },
   "hero": {
     "title": "Twój",
     "pdfToolkit": "zestaw narzędzi PDF",
@@ -24,9 +20,6 @@
     "unlimitedUse": "Nielimitowane korzystanie",
     "worksOffline": "Działa offline",
     "startUsing": "Zacznij używać teraz"
-  },
-  "usedBy": {
-    "title": "Używane przez firmy i osoby pracujące w"
   },
   "features": {
     "title": "Dlaczego warto wybrać",
@@ -219,11 +212,6 @@
       "question": "Czy używacie plików cookie lub analityki do mojego śledzenia?",
       "answer": "Dbamy o Twoją prywatność. BentoPDF nie śledzi danych osobowych. Używamy Simple Analytics wyłącznie w celu sprawdzenia anonimowej liczby wizyt. Oznacza to, że wiemy, ilu użytkowników odwiedza naszą stronę, ale nigdy nie wiemy, kim jesteś. Simple Analytics jest w pełni zgodne z RODO i szanuje Twoją prywatność."
     }
-  },
-  "testimonials": {
-    "title": "Co Nasi",
-    "users": "Użytkownicy",
-    "say": "Mówią"
   },
   "support": {
     "title": "Podoba Ci się moja praca?",

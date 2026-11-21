@@ -12,10 +12,6 @@
     "noLanguagesFound": "No languages found",
     "breadcrumb": "Breadcrumb"
   },
-  "donation": {
-    "message": "Love BentoPDF? Help us keep it free and open source!",
-    "button": "Donate"
-  },
   "hero": {
     "title": "The",
     "pdfToolkit": "PDF Toolkit",
@@ -24,9 +20,6 @@
     "unlimitedUse": "Unlimited Use",
     "worksOffline": "Works Offline",
     "startUsing": "Start Using Now"
-  },
-  "usedBy": {
-    "title": "Used by companies and people working at"
   },
   "features": {
     "title": "Why choose",
@@ -219,11 +212,6 @@
       "question": "Do you use cookies or analytics to track me?",
       "answer": "No. BentoPDF does not track you at all. We do not use cookies, analytics, or any tracking scripts, not even on the live website at bentopdf.com. We never know who you are or what you do with the tools."
     }
-  },
-  "testimonials": {
-    "title": "What Our",
-    "users": "Users",
-    "say": "Say"
   },
   "support": {
     "title": "Like My Work?",

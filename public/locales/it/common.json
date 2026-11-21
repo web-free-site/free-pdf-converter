@@ -12,10 +12,6 @@
     "noLanguagesFound": "Nessuna lingua trovata",
     "breadcrumb": "Breadcrumb"
   },
-  "donation": {
-    "message": "Ti piace BentoPDF? Aiutaci a mantenerlo gratuito e open source!",
-    "button": "Dona"
-  },
   "hero": {
     "title": "Il",
     "pdfToolkit": "kit di strumenti PDF",
@@ -24,9 +20,6 @@
     "unlimitedUse": "Uso illimitato",
     "worksOffline": "Funziona offline",
     "startUsing": "Inizia a usarlo ora"
-  },
-  "usedBy": {
-    "title": "Usato da aziende e persone che lavorano in"
   },
   "features": {
     "title": "Perché scegliere",
@@ -219,11 +212,6 @@
       "question": "Usate cookie o analytics per tracciarmi?",
       "answer": "No. BentoPDF non ti traccia in alcun modo. Non usiamo cookie, strumenti di analisi né script di tracciamento, nemmeno sul sito web live bentopdf.com. Non sappiamo mai chi sei né cosa fai con gli strumenti."
     }
-  },
-  "testimonials": {
-    "title": "Cosa",
-    "users": "dicono i nostri",
-    "say": "utenti"
   },
   "support": {
     "title": "Ti piace il mio lavoro?",
