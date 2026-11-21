@@ -12,10 +12,6 @@
     "noLanguagesFound": "Dil bulunamadı",
     "breadcrumb": "Gezinti yolu"
   },
-  "donation": {
-    "message": "BentoPDF'i seviyor musunuz? Ücretsiz ve açık kaynaklı kalmasına yardımcı olun!",
-    "button": "Bağış Yap"
-  },
   "hero": {
     "title": " ",
     "pdfToolkit": "PDF Araç Seti",
@@ -24,9 +20,6 @@
     "unlimitedUse": "Sınırsız Kullanım",
     "worksOffline": "Çevrimdışı Çalışır",
     "startUsing": "Hemen Kullanmaya Başla"
-  },
-  "usedBy": {
-    "title": "Şu şirketler ve çalışanları tarafından kullanılıyor"
   },
   "features": {
     "title": "Neden",
@@ -219,11 +212,6 @@
       "question": "Beni takip etmek için çerez veya analiz kullanıyor musunuz?",
       "answer": "Hayır. BentoPDF sizi hiçbir şekilde takip etmez. Çerez, analiz aracı veya izleme betiği kullanmıyoruz; canlı web sitesi bentopdf.com'da bile. Kim olduğunuzu veya araçlarla ne yaptığınızı asla bilmeyiz."
     }
-  },
-  "testimonials": {
-    "title": "Kullanıcılarımız",
-    "users": "Ne Diyor",
-    "say": " "
   },
   "support": {
     "title": "Çalışmamı Beğendiniz mi?",

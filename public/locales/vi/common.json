@@ -12,10 +12,6 @@
     "noLanguagesFound": "Không tìm thấy ngôn ngữ",
     "breadcrumb": "Đường dẫn điều hướng"
   },
-  "donation": {
-    "message": "Bạn yêu thích BentoPDF? Hãy giúp chúng tôi giữ nó miễn phí và mã nguồn mở!",
-    "button": "Quyên góp"
-  },
   "hero": {
     "title": "Bộ công cụ",
     "pdfToolkit": "PDF",
@@ -24,9 +20,6 @@
     "unlimitedUse": "Sử dụng không giới hạn",
     "worksOffline": "Hoạt động offline",
     "startUsing": "Bắt đầu sử dụng ngay"
-  },
-  "usedBy": {
-    "title": "Được sử dụng bởi các công ty và những người làm việc tại"
   },
   "features": {
     "title": "Tại sao chọn",
@@ -219,11 +212,6 @@
       "question": "Bạn có sử dụng cookie hoặc phân tích để theo dõi tôi không?",
       "answer": "Không. BentoPDF hoàn toàn không theo dõi bạn. Chúng tôi không dùng cookie, công cụ phân tích hay bất kỳ tập lệnh theo dõi nào, kể cả trên trang web chính thức bentopdf.com. Chúng tôi không bao giờ biết bạn là ai hay bạn làm gì với các công cụ."
     }
-  },
-  "testimonials": {
-    "title": "Người dùng",
-    "users": "của chúng tôi",
-    "say": "nói gì"
   },
   "support": {
     "title": "Thích công việc của tôi?",

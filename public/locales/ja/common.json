@@ -12,10 +12,6 @@
     "noLanguagesFound": "言語が見つかりません",
     "breadcrumb": "パンくずリスト"
   },
-  "donation": {
-    "message": "BentoPDFは好きですか？無料かつオープンソースを維持するためにご協力ください！",
-    "button": "寄付する"
-  },
   "hero": {
     "title": "プライバシーのために作られた",
     "pdfToolkit": "PDFツールキット",
@@ -24,9 +20,6 @@
     "unlimitedUse": "無制限の利用",
     "worksOffline": "オフラインでも動作",
     "startUsing": "今すぐ使い始めよう"
-  },
-  "usedBy": {
-    "title": "これらの企業や従業員に利用されています"
   },
   "features": {
     "title": "選ぶ理由",
@@ -219,11 +212,6 @@
       "question": "私を追跡するためにCookieまたは分析を使用しますか？",
       "answer": "いいえ。BentoPDF はあなたを一切追跡しません。Cookie、アナリティクス、トラッキングスクリプトは使用しておらず、公開サイト bentopdf.com でも同様です。あなたが誰で、ツールで何をしているかを私たちが知ることはありません。"
     }
-  },
-  "testimonials": {
-    "title": " ",
-    "users": "利用者",
-    "say": "の声"
   },
   "support": {
     "title": "私の作品が好きですか？",

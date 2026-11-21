@@ -12,10 +12,6 @@
     "noLanguagesFound": "Aucune langue trouvée",
     "breadcrumb": "Fil d'Ariane"
   },
-  "donation": {
-    "message": "Vous aimez BentoPDF ? Aidez-nous à le garder open source !",
-    "button": "Soutenir"
-  },
   "hero": {
     "title": "La",
     "pdfToolkit": "palette d’outils PDF",
@@ -24,9 +20,6 @@
     "unlimitedUse": "Utilisation illimitée",
     "worksOffline": "Fonctionne hors ligne",
     "startUsing": "Commencer maintenant"
-  },
-  "usedBy": {
-    "title": "Utilisé par des entreprises et des professionnels de"
   },
   "features": {
     "title": "Pourquoi choisir",
@@ -219,11 +212,6 @@
       "question": "Utilisez-vous des cookies ou des outils de suivi ?",
       "answer": "Nous respectons votre vie privée. BentoPDF utilise uniquement des statistiques anonymes pour connaître le nombre de visites, sans jamais identifier les utilisateurs."
     }
-  },
-  "testimonials": {
-    "title": "Ce que disent",
-    "users": "nos utilisateurs",
-    "say": " "
   },
   "support": {
     "title": "Vous aimez ce projet ?",
