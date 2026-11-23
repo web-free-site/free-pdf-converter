@@ -3,6 +3,10 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { DOCS_INLINE_SCRIPT_HASHES } from './generate-security-headers.mjs';
+import { resolveSiteUrl } from './indexing-policy.mjs';
+import { loadProductionEnv } from './load-production-env.mjs';
+
+loadProductionEnv();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -125,10 +129,7 @@ function listDocsHtml(dir, prefix) {
 }
 
 function addDocsToSitemap() {
-  const siteUrl = (process.env.SITE_URL || 'https://www.bentopdf.com').replace(
-    /\/+$/,
-    ''
-  );
+  const siteUrl = resolveSiteUrl();
   const sitemapPath = path.join(mainDistPath, 'sitemap.xml');
   if (!fs.existsSync(sitemapPath)) {
     console.warn(

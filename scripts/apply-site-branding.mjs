@@ -1,22 +1,18 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { OFFICIAL_SITE_URL, resolveSiteUrl } from './indexing-policy.mjs';
+import { loadProductionEnv } from './load-production-env.mjs';
+
+loadProductionEnv();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.resolve(__dirname, '../dist');
 
 const BRAND = process.env.VITE_BRAND_NAME || 'Free PDF Converter';
-const SITE_URL = (process.env.SITE_URL || '').replace(/\/+$/, '');
-const OWNER = process.env.OWNER_NAME || 'Gentil M.';
-const OWNER_URL = process.env.OWNER_URL || 'https://gentil.quevvy.com';
-const SOURCE = process.env.SOURCE_CODE_URL || '';
+const SITE_URL = resolveSiteUrl();
 
-if (!SITE_URL) {
-  console.log('[branding] SITE_URL not set, skipping HTML brand pass.');
-  process.exit(0);
-}
-
-const OFFICIAL = 'https://www.bentopdf.com';
+const OFFICIAL = OFFICIAL_SITE_URL;
 
 function walk(dir, files = []) {
   for (const name of fs.readdirSync(dir)) {

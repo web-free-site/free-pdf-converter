@@ -3,16 +3,17 @@ import path from 'path';
 import { JSDOM } from 'jsdom';
 import { fileURLToPath } from 'url';
 import { serializeJsonLd } from './json-ld.mjs';
+import { resolveSiteUrl } from './indexing-policy.mjs';
+import { loadProductionEnv } from './load-production-env.mjs';
+
+loadProductionEnv();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const DIST_DIR = path.resolve(__dirname, '../dist');
 const BASE_PATH = (process.env.BASE_URL || '/').replace(/\/$/, '');
-const SITE_URL = (process.env.SITE_URL || 'https://www.bentopdf.com').replace(
-  /\/+$/,
-  ''
-);
+const SITE_URL = resolveSiteUrl();
 
 const FALLBACK_SOCIAL_IMAGE = '/images/og-tools.png';
 

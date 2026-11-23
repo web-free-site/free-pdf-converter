@@ -1,7 +1,14 @@
 export const OFFICIAL_SITE_URL = 'https://www.bentopdf.com';
 
+/** Default public URL for this fork when SITE_URL is unset during builds. */
+export const DEFAULT_DEPLOYMENT_SITE_URL =
+  'https://free-pdf-converter.web-free.site';
+
 export function resolveSiteUrl() {
-  return (process.env.SITE_URL || OFFICIAL_SITE_URL).replace(/\/+$/, '');
+  return (process.env.SITE_URL || DEFAULT_DEPLOYMENT_SITE_URL).replace(
+    /\/+$/,
+    ''
+  );
 }
 
 export function isOfficialSiteUrl(url = resolveSiteUrl()) {

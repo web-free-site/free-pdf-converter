@@ -1,8 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { canonicalBasePath, isIndexingBlocked } from './indexing-policy.mjs';
+import {
+  OFFICIAL_SITE_URL,
+  canonicalBasePath,
+  isIndexingBlocked,
+  resolveSiteUrl,
+} from './indexing-policy.mjs';
+import { loadProductionEnv } from './load-production-env.mjs';
 import { createTranslationChecker } from './page-translation.mjs';
+
+loadProductionEnv();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,11 +20,7 @@ const LOCALES_DIR = path.resolve(__dirname, '../public/locales');
 // The blog is BentoPDF's own content, so generate-blog.mjs and the hand-written
 // blog pages keep their canonicals on the official site, also in self-hosted
 // builds with a custom SITE_URL or BASE_URL.
-const OFFICIAL_SITE_URL = 'https://www.bentopdf.com';
-const SITE_URL = (process.env.SITE_URL || OFFICIAL_SITE_URL).replace(
-  /\/+$/,
-  ''
-);
+const SITE_URL = resolveSiteUrl();
 const BASE_PATH = (process.env.BASE_URL || '/').replace(/\/$/, '');
 const HOST = new URL(SITE_URL).hostname;
 const OFFICIAL_HOST = new URL(OFFICIAL_SITE_URL).hostname;

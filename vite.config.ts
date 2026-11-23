@@ -710,7 +710,7 @@ export default defineConfig(({ command }) => {
       ? '/docs/'
       : brandSiteUrl
         ? `${brandSiteUrl}/docs`
-        : 'https://www.bentopdf.com/docs';
+        : 'https://free-pdf-converter.web-free.site/docs';
   const showAdsterra =
     process.env.VITE_SHOW_ADSTERRA === 'true' || command === 'serve';
   const showAds =

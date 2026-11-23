@@ -2,6 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { isIndexingBlocked, resolveSiteUrl } from './indexing-policy.mjs';
+import { loadProductionEnv } from './load-production-env.mjs';
+
+loadProductionEnv();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST_DIR = path.resolve(__dirname, '../dist');

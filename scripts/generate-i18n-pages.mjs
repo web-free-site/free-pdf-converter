@@ -6,8 +6,15 @@ import { serializeJsonLd } from './json-ld.mjs';
 import { ENGLISH_ONLY_PAGES, processPage } from './content-segments.mjs';
 import { completeDocsLanguages } from './docs-languages.mjs';
 import { createTranslationChecker } from './page-translation.mjs';
-import { canonicalBasePath } from './indexing-policy.mjs';
+import {
+  OFFICIAL_SITE_URL,
+  canonicalBasePath,
+  resolveSiteUrl,
+} from './indexing-policy.mjs';
+import { loadProductionEnv } from './load-production-env.mjs';
 import { applyServerTranslations } from './server-translations.mjs';
+
+loadProductionEnv();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,10 +22,7 @@ const __dirname = path.dirname(__filename);
 const DIST_DIR = path.resolve(__dirname, '../dist');
 const LOCALES_DIR = path.resolve(__dirname, '../public/locales');
 const CONTENT_DIR = path.resolve(__dirname, '../translations');
-const SITE_URL = (process.env.SITE_URL || 'https://www.bentopdf.com').replace(
-  /\/+$/,
-  ''
-);
+const SITE_URL = resolveSiteUrl();
 const BASE_PATH = (process.env.BASE_URL || '/').replace(/\/$/, '');
 
 const I18N_LANGS = (process.env.SITEMAP_LANGUAGES || 'en,fr')
@@ -30,7 +34,7 @@ const languages = I18N_LANGS.filter((file) => {
   return fs.existsSync(p) && fs.statSync(p).isDirectory();
 });
 
-const OFFICIAL_DOCS_URL = 'https://www.bentopdf.com/docs';
+const OFFICIAL_DOCS_URL = `${OFFICIAL_SITE_URL}/docs`;
 
 const docsLanguages = completeDocsLanguages(
   path.resolve(__dirname, '../docs'),

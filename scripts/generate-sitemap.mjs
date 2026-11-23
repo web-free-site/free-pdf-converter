@@ -2,17 +2,18 @@ import fs from 'fs';
 import path from 'path';
 import { execFileSync } from 'child_process';
 import { fileURLToPath } from 'url';
-import { OFFICIAL_SITE_URL, canonicalBasePath } from './indexing-policy.mjs';
+import { canonicalBasePath, resolveSiteUrl } from './indexing-policy.mjs';
+import { loadProductionEnv } from './load-production-env.mjs';
 import { createTranslationChecker } from './page-translation.mjs';
+
+loadProductionEnv();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const DIST_DIR = path.resolve(__dirname, '../dist');
 const LOCALES_DIR = path.resolve(__dirname, '../public/locales');
-const SITE_URL = (
-  process.env.SITE_URL || 'https://free-pdf-converter.web-free.site'
-).replace(/\/+$/, '');
+const SITE_URL = resolveSiteUrl();
 const EXCLUDED_PAGES = new Set(['404', 'wasm-settings']);
 
 const SITEMAP_LANGS = (process.env.SITEMAP_LANGUAGES || 'en,fr')
