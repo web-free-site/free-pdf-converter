@@ -10,10 +10,9 @@ const __dirname = path.dirname(__filename);
 
 const DIST_DIR = path.resolve(__dirname, '../dist');
 const LOCALES_DIR = path.resolve(__dirname, '../public/locales');
-const SITE_URL = (process.env.SITE_URL || 'https://www.bentopdf.com').replace(
-  /\/+$/,
-  ''
-);
+const SITE_URL = (
+  process.env.SITE_URL || 'https://free-pdf-converter.web-free.site'
+).replace(/\/+$/, '');
 const EXCLUDED_PAGES = new Set(['404', 'wasm-settings']);
 
 const SITEMAP_LANGS = (process.env.SITEMAP_LANGUAGES || 'en,fr')
@@ -85,7 +84,7 @@ function buildUrl(lang, pageName) {
   const pagePath = pageName === 'index' ? '' : pageName;
   const root = `${SITE_URL}${canonicalBasePath()}`;
   const prefix = lang === 'en' ? root : `${root}/${lang}`;
-  return pagePath ? `${prefix}/${pagePath}` : prefix;
+  return pagePath ? `${prefix}/${pagePath}` : `${prefix}/`;
 }
 
 function generateSitemap() {
@@ -174,14 +173,14 @@ function generateSitemap() {
 
   const blogDir = path.join(DIST_DIR, 'blog');
   let blogCount = 0;
-  if (SITE_URL === OFFICIAL_SITE_URL && fs.existsSync(blogDir)) {
+  if (fs.existsSync(blogDir)) {
     const blogFiles = fs
       .readdirSync(blogDir)
       .filter((file) => file.endsWith('.html'))
       .map((file) => file.replace('.html', ''));
     for (const name of blogFiles) {
       const url =
-        name === 'index' ? `${SITE_URL}/blog` : `${SITE_URL}/blog/${name}`;
+        name === 'index' ? `${SITE_URL}/blog/` : `${SITE_URL}/blog/${name}`;
       const sourcePath = path.join(projectRoot, 'blog', `${name}.html`);
       let lastmod;
       try {
