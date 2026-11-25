@@ -16,6 +16,10 @@ const ADFIX_CFG = {
   },
   selector: '.adsterra-slot[data-ad-slot], [data-adfix-size]',
 };
+const POPUNDER_SRC =
+  'https://pl32319811.profitableratecpmnetwork.com/42/38/68/423868acf0e58bd20ed89eeec726df06.js';
+const SOCIALBAR_SRC =
+  'https://pl32319846.profitableratecpmnetwork.com/da/24/10/da2410e8cb90de15a13c39f5d9c44eaf.js';
 const HEAD_INJECT =
   '<link rel="stylesheet" href="/__adfix/adfix.css?v=4"/><script>window.__ADFIX=' +
   JSON.stringify(ADFIX_CFG) +
@@ -147,6 +151,7 @@ export default {
       return finish(response, url);
     // Popunder: load it at the end of <body> (in <head> it runs before document.body exists -> appendChild on null)
     let pop = null;
+    let hasSocial = false;
     let topDone = false;
     let hasMid = false;
     let footerSeen = false;
@@ -185,13 +190,27 @@ export default {
           e.remove();
         },
       })
+      .on('script[data-fpc-social]', {
+        element() {
+          hasSocial = true;
+        },
+      })
       .on('body', {
         element(e) {
           e.onEndTag((end) => {
             end.before(AD_STICKY, { html: true });
-            if (pop)
+            // One Popunder + one Social Bar per page (Adsterra caps frequency per session).
+            end.before(
+              '<script async data-cfasync="false" src="' +
+                (pop || POPUNDER_SRC) +
+                '" data-fpc-popunder="1"></script>',
+              { html: true }
+            );
+            if (!hasSocial)
               end.before(
-                '<script src="' + pop + '" data-fpc-popunder="1"></script>',
+                '<script async data-cfasync="false" src="' +
+                  SOCIALBAR_SRC +
+                  '" data-fpc-social="1"></script>',
                 { html: true }
               );
           });
