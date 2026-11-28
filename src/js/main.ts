@@ -100,9 +100,19 @@ const init = async () => {
         securitySection.style.display = 'none';
       }
 
-      const faqSection = document.getElementById('faq-accordion');
+      const faqSection = document.getElementById('homepage-faq');
       if (faqSection) {
         faqSection.style.display = 'none';
+      }
+
+      const howSection = document.getElementById('homepage-how');
+      if (howSection) {
+        howSection.style.display = 'none';
+      }
+
+      const popularSection = document.getElementById('popular-tools');
+      if (popularSection) {
+        popularSection.style.display = 'none';
       }
 
       const supportSection = document.getElementById('support-section');

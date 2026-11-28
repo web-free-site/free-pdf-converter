@@ -1,0 +1,348 @@
+/* Free PDF Converter homepage (English marketing layout) */
+body.fpc-home .fpc-hide-on-home {
+  display: none !important;
+}
+
+body.fpc-home footer::after {
+  content: '© Free PDF Converter';
+  display: block;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #475569;
+  margin-top: 2.5rem;
+}
+.fpc-home-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2.5rem, 6vw, 4.5rem) 1rem clamp(2rem, 5vw, 3.5rem);
+  background:
+    radial-gradient(
+      ellipse 120% 80% at 50% -20%,
+      rgba(20, 184, 166, 0.22),
+      transparent 55%
+    ),
+    linear-gradient(180deg, #0f172a 0%, #0c1222 48%, #0f1419 100%);
+  border-bottom: 1px solid rgba(45, 212, 191, 0.15);
+}
+
+.fpc-home-hero-inner {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+}
+
+.fpc-home-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #5eead4;
+  background: rgba(20, 184, 166, 0.12);
+  border: 1px solid rgba(45, 212, 191, 0.25);
+  border-radius: 999px;
+}
+
+.fpc-home-hero h1 {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: #f8fafc;
+  margin: 0 0 1rem;
+  max-width: 16ch;
+}
+
+.fpc-home-lead {
+  font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+  line-height: 1.65;
+  color: #94a3b8;
+  max-width: 42rem;
+  margin: 0 0 1.75rem;
+}
+
+.fpc-home-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.fpc-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.35rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 0.6rem;
+  text-decoration: none;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.fpc-home-btn--primary {
+  color: #042f2e;
+  background: #2dd4bf;
+  border: 1px solid #2dd4bf;
+}
+
+.fpc-home-btn--primary:hover {
+  background: #5eead4;
+  border-color: #5eead4;
+}
+
+.fpc-home-btn--ghost {
+  color: #e2e8f0;
+  background: transparent;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+}
+
+.fpc-home-btn--ghost:hover {
+  border-color: #5eead4;
+  color: #99f6e4;
+}
+
+.fpc-home-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+
+.fpc-home-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  color: #cbd5e1;
+}
+
+.fpc-home-pill svg {
+  width: 1rem;
+  height: 1rem;
+  color: #2dd4bf;
+  flex-shrink: 0;
+}
+
+.fpc-home-section {
+  padding: clamp(2.5rem, 5vw, 4rem) 1rem;
+}
+
+.fpc-home-section--band {
+  background: #111827;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.fpc-home-section-inner {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+}
+
+.fpc-home-section h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.fpc-home-section .fpc-home-section-desc {
+  color: #94a3b8;
+  margin: 0 0 1.75rem;
+  max-width: 40rem;
+  line-height: 1.6;
+}
+
+.fpc-tool-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.85rem;
+}
+
+@media (min-width: 640px) {
+  .fpc-tool-cards {
+    grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  }
+}
+
+.fpc-tool-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 1rem 1.1rem;
+  text-decoration: none;
+  color: #e2e8f0;
+  background: rgba(30, 41, 59, 0.65);
+  border: 1px solid rgba(71, 85, 105, 0.55);
+  border-radius: 0.75rem;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    transform 0.15s;
+}
+
+.fpc-tool-card:hover {
+  border-color: rgba(45, 212, 191, 0.55);
+  background: rgba(15, 118, 110, 0.15);
+  transform: translateY(-2px);
+}
+
+.fpc-tool-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.5rem;
+  background: rgba(20, 184, 166, 0.18);
+  color: #5eead4;
+}
+
+.fpc-tool-card-icon svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.fpc-tool-card span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.fpc-why-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .fpc-why-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .fpc-why-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.fpc-why-card {
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.7);
+}
+
+.fpc-why-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.fpc-why-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #94a3b8;
+}
+
+.fpc-steps {
+  display: grid;
+  gap: 1.25rem;
+  counter-reset: fpc-step;
+}
+
+@media (min-width: 768px) {
+  .fpc-steps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+.fpc-step {
+  position: relative;
+  padding: 1.25rem 1.25rem 1.25rem 3.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(51, 65, 85, 0.65);
+  background: rgba(17, 24, 39, 0.5);
+}
+
+.fpc-step::before {
+  counter-increment: fpc-step;
+  content: counter(fpc-step);
+  position: absolute;
+  left: 1rem;
+  top: 1.15rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #042f2e;
+  background: #2dd4bf;
+  border-radius: 0.4rem;
+}
+
+.fpc-step h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.fpc-step p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #94a3b8;
+}
+
+.fpc-home-faq {
+  max-width: 42rem;
+}
+
+.fpc-home-faq details {
+  margin-bottom: 0.65rem;
+  border: 1px solid rgba(71, 85, 105, 0.6);
+  border-radius: 0.65rem;
+  background: rgba(30, 41, 59, 0.45);
+  overflow: hidden;
+}
+
+.fpc-home-faq summary {
+  cursor: pointer;
+  padding: 1rem 1.15rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  list-style: none;
+}
+
+.fpc-home-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.fpc-home-faq .faq-d-a {
+  padding: 0 1.15rem 1rem;
+  color: #94a3b8;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+#tools-header.fpc-tools-header h2 {
+  color: #f8fafc;
+}
+
+#tools-header.fpc-tools-header p {
+  color: #94a3b8;
+}
