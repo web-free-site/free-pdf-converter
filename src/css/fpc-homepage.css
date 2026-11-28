@@ -1,16 +1,4 @@
 /* Free PDF Converter homepage (English marketing layout) */
-body.fpc-home .fpc-hide-on-home {
-  display: none !important;
-}
-
-body.fpc-home footer::after {
-  content: '© Free PDF Converter';
-  display: block;
-  text-align: center;
-  font-size: 0.75rem;
-  color: #475569;
-  margin-top: 2.5rem;
-}
 .fpc-home-hero {
   position: relative;
   overflow: hidden;

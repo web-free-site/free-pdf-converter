@@ -1,0 +1,92 @@
+<footer class="border-t border-teal-900/30 py-12 bg-slate-950">
+  <div class="container mx-auto px-4">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 text-center md:text-left"
+    >
+      <div>
+        <div class="flex items-center justify-center md:justify-start mb-4">
+          <img
+            id="footer-logo"
+            src="{{baseUrl}}{{#if brandLogo}}{{brandLogo}}{{else}}images/fpc-logo.svg{{/if}}"
+            alt="{{#if brandName}}{{brandName}}{{else}}Free PDF Converter{{/if}} Logo"
+            class="h-10 w-10 mr-3"
+          />
+          <span id="footer-brand" class="text-xl font-bold text-white"
+            >{{#if brandName}}{{brandName}}{{else}}Free PDF
+            Converter{{/if}}</span
+          >
+        </div>
+        <p class="text-gray-400 text-sm">
+          Free online PDF tools. No signup — your files never leave your device.
+        </p>
+        <p class="text-gray-500 text-xs mt-3">
+          Based on
+          <a
+            href="https://github.com/alam00000/bentopdf"
+            class="text-teal-400/80 hover:text-teal-300"
+            rel="noopener noreferrer"
+            >BentoPDF</a
+          >
+          (AGPL-3.0). {{#if sourceCodeUrl}}
+          <a
+            href="{{sourceCodeUrl}}"
+            class="text-teal-400/80 hover:text-teal-300"
+            rel="noopener noreferrer"
+            >Source code</a
+          >. {{/if}}
+        </p>
+      </div>
+
+      <div>
+        <h3 class="font-bold text-white mb-4">Tools</h3>
+        <ul class="space-y-2 text-gray-400 text-sm">
+          <li>
+            <a href="/merge-pdf" class="hover:text-teal-300">Merge PDF</a>
+          </li>
+          <li>
+            <a href="/split-pdf" class="hover:text-teal-300">Split PDF</a>
+          </li>
+          <li>
+            <a href="/compress-pdf" class="hover:text-teal-300">Compress PDF</a>
+          </li>
+          <li>
+            <a href="/jpg-to-pdf" class="hover:text-teal-300">JPG to PDF</a>
+          </li>
+          <li>
+            <a href="/pdf-to-jpg" class="hover:text-teal-300">PDF to JPG</a>
+          </li>
+          <li>
+            <a href="/add-watermark" class="hover:text-teal-300">Watermark</a>
+          </li>
+          <li>
+            <a href="/#tools-header" class="hover:text-teal-300">All tools</a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="font-bold text-white mb-4">Legal</h3>
+        <ul class="space-y-2 text-gray-400 text-sm">
+          <li>
+            <a href="/privacy" class="hover:text-teal-300">Privacy Policy</a>
+          </li>
+          <li><a href="/terms" class="hover:text-teal-300">Terms</a></li>
+          <li><a href="/about" class="hover:text-teal-300">About</a></li>
+          <li><a href="/contact" class="hover:text-teal-300">Contact</a></li>
+          <li>
+            <a
+              href="https://github.com/alam00000/bentopdf/blob/main/LICENSE"
+              class="hover:text-teal-300"
+              rel="noopener noreferrer"
+              >License (AGPL-3.0)</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+    <p class="text-center text-gray-600 text-xs mt-10">
+      &copy; {{#if brandName}}{{brandName}}{{else}}Free PDF Converter{{/if}}.
+      Open-source components credited above.
+    </p>
+  </div>
+</footer>
