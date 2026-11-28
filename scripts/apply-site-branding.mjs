@@ -25,7 +25,9 @@ function walk(dir, files = []) {
 
 function brandHtml(html) {
   let out = html.split(OFFICIAL).join(SITE_URL);
+  out = out.replaceAll('https://bentopdf.com', SITE_URL);
   out = out.replaceAll('http://www.bentopdf.com', SITE_URL);
+  out = out.replaceAll('http://bentopdf.com', SITE_URL);
   out = out.replace(/\|\s*BentoPDF/g, `| ${BRAND}`);
   out = out.replace(/-\s*BentoPDF(?=[\s<"'])/g, `- ${BRAND}`);
   out = out.replace(/content="BentoPDF"/g, `content="${BRAND}"`);
@@ -35,14 +37,44 @@ function brandHtml(html) {
     `<meta property="og:site_name" content="${BRAND}"`
   );
   out = out.replace(/"name":\s*"BentoPDF"/g, `"name": "${BRAND}"`);
+  out = out.replace(
+    /"url":\s*"https:\/\/free-pdf-converter\.web-free\.site"(?!\/)/g,
+    `"url": "${SITE_URL}/"`
+  );
   return out;
+}
+
+function fixHomepageCanonical(html) {
+  const home = `${SITE_URL}/`;
+  return html
+    .replace(
+      new RegExp(
+        `<link rel="canonical" href="${SITE_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"\\s*\\/>`
+      ),
+      `<link rel="canonical" href="${home}" />`
+    )
+    .replace(
+      new RegExp(
+        `<meta property="og:url" content="${SITE_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"\\s*\\/>`
+      ),
+      `<meta property="og:url" content="${home}" />`
+    )
+    .replace(
+      new RegExp(
+        `<meta name="twitter:url" content="${SITE_URL.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"\\s*\\/>`
+      ),
+      `<meta name="twitter:url" content="${home}" />`
+    );
 }
 
 const files = walk(DIST);
 let n = 0;
 for (const file of files) {
   const prev = fs.readFileSync(file, 'utf8');
-  const next = brandHtml(prev);
+  let next = brandHtml(prev);
+  if (path.basename(file) === 'index.html') {
+    next = fixHomepageCanonical(next);
+  }
   if (next !== prev) {
     fs.writeFileSync(file, next);
     n++;
