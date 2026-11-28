@@ -90,7 +90,11 @@ function buildUrl(langPrefix, pagePath) {
   if (canonicalBase) parts.push(canonicalBase.replace(/^\//, ''));
   if (langPrefix) parts.push(langPrefix);
   if (pagePath) parts.push(pagePath.replace(/^\//, ''));
-  return parts.filter(Boolean).join('/').replace(/\/+$/, '') || SITE_URL;
+  const joined = parts.filter(Boolean).join('/');
+  if (!pagePath && !langPrefix) {
+    return `${joined.replace(/\/+$/, '')}/`;
+  }
+  return joined.replace(/\/+$/, '') || SITE_URL;
 }
 
 const ORGANIZATION_LD_MARKER = 'data-bentopdf-organization';
@@ -108,17 +112,17 @@ function injectOrganizationLd(document) {
       continue;
     }
   }
+  const brand = process.env.VITE_BRAND_NAME || 'Free PDF Converter';
   const data = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'BentoPDF',
-    url: SITE_URL,
+    name: brand,
+    url: `${SITE_URL}/`,
     logo: `${SITE_URL}/images/favicon.svg`,
     sameAs: [
       'https://github.com/alam00000/bentopdf',
-      'https://x.com/BentoPDF',
-      'https://www.linkedin.com/company/bentopdf/',
-      'https://www.instagram.com/thebentopdf/',
+      process.env.SOURCE_CODE_URL ||
+        'https://github.com/web-free-site/free-pdf-converter',
     ],
   };
   const script = document.createElement('script');
@@ -129,7 +133,7 @@ function injectOrganizationLd(document) {
 }
 
 const BREADCRUMB_MARKER = 'data-bentopdf-breadcrumb';
-const BRAND_NAME = process.env.VITE_BRAND_NAME || 'BentoPDF';
+const BRAND_NAME = process.env.VITE_BRAND_NAME || 'Free PDF Converter';
 
 function buildLocalHomeHref(lang) {
   const langSegment = lang === 'en' ? '/' : `/${lang}`;

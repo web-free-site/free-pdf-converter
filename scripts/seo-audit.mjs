@@ -127,7 +127,11 @@ function expectedCanonicalForFile(rel) {
     }
   }
   if (slug) segments.push(slug);
-  return segments.join('/').replace(/\/+$/, '') || SITE_URL;
+  const joined = segments.filter(Boolean).join('/');
+  if (!slug && parts.every((seg) => !LOCALE_DIRS.has(seg))) {
+    return `${joined.replace(/\/+$/, '')}/`;
+  }
+  return joined.replace(/\/+$/, '') || SITE_URL;
 }
 
 function auditHtml(file, knownSlugs) {
@@ -189,10 +193,23 @@ function auditHtml(file, knownSlugs) {
     }
     try {
       const url = new URL(actual);
-      if (hasTrailingSlash(actual)) {
+      const isHomeCanonical =
+        file.rel === 'index.html' &&
+        (url.pathname === '/' || url.pathname === '');
+      if (hasTrailingSlash(actual) && !isHomeCanonical) {
         fail(
           'canonical',
           `${file.rel}: canonical "${actual}" ends with "/" (the server redirects it to the slashless form)`
+        );
+      }
+      if (
+        file.rel === 'index.html' &&
+        url.pathname !== '/' &&
+        !actual.endsWith('/')
+      ) {
+        fail(
+          'canonical',
+          `${file.rel}: homepage canonical should end with "/" (got "${actual}")`
         );
       }
       const expectedHost = isBlogPage(file.rel) ? OFFICIAL_HOST : HOST;

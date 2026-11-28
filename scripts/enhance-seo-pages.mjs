@@ -111,8 +111,8 @@ function injectWebsiteSchema(document) {
   script.textContent = serializeJsonLd({
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'BentoPDF',
-    alternateName: ['Bento PDF', 'BentoPDF.com'],
+    name: process.env.VITE_BRAND_NAME || 'Free PDF Converter',
+    alternateName: ['Free PDF Converter', 'free-pdf-converter.web-free.site'],
     url: `${SITE_URL}/`,
   });
   document.body.appendChild(script);
